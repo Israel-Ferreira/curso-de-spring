@@ -1,12 +1,12 @@
 package io.codekaffee.cursomc.controllers;
 
+import io.codekaffee.cursomc.dto.CategoriaDTO;
 import io.codekaffee.cursomc.models.Categoria;
 import io.codekaffee.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,38 @@ public class CategoriaController {
 
     @GetMapping
     public ResponseEntity<List<Categoria>> getCategorias(){
-        var categorias = categoriaService.loadInitialPayload();
+        var categorias = categoriaService.findAll();
         return ResponseEntity.ok(categorias);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaDTO> getById(@PathVariable("id") Long id){
+        Categoria categoria =  categoriaService.findById(id);
+        CategoriaDTO response =  new CategoriaDTO(categoria);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO) {
+        var categoria = categoriaService.update(id, categoriaDTO);
+        CategoriaDTO response =  new CategoriaDTO(categoria);
+        return  ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategoria(@PathVariable Long id){
+        this.categoriaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @PostMapping
+    public ResponseEntity<CategoriaDTO> createCategoria(@RequestBody CategoriaDTO body){
+        Categoria categoria = categoriaService.create(body);
+        CategoriaDTO response = new CategoriaDTO(categoria);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
