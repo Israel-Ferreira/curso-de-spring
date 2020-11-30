@@ -21,7 +21,8 @@ public class CategoriaService {
         List<Categoria> categorias = Arrays.asList(
                 new Categoria("Informatica"),
                 new Categoria("Perfumaria"),
-                new Categoria("Jogos de Tabuleiro")
+                new Categoria("Jogos de Tabuleiro"),
+                new Categoria("Escritório")
         );
 
         return repository.saveAll(categorias);
