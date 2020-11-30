@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/categorias")
@@ -19,9 +20,17 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> getCategorias(){
+    public ResponseEntity<List<CategoriaDTO>> getCategorias(){
         var categorias = categoriaService.findAll();
-        return ResponseEntity.ok(categorias);
+
+        List<CategoriaDTO> categoriaDTOS =  categorias.stream()
+                .map(cat -> {
+                    var category = new CategoriaDTO(cat);
+                    category.fillProdutosList(cat.getProdutos());
+                    return category;
+                }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(categoriaDTOS);
     }
 
     @GetMapping("/{id}")

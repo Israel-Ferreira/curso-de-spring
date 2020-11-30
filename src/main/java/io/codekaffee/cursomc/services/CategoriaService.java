@@ -3,10 +3,13 @@ package io.codekaffee.cursomc.services;
 import io.codekaffee.cursomc.dto.CategoriaDTO;
 import io.codekaffee.cursomc.exceptions.categoria.CategoriaNotFoundException;
 import io.codekaffee.cursomc.models.Categoria;
+import io.codekaffee.cursomc.models.Produto;
 import io.codekaffee.cursomc.repositories.CategoriaRepository;
+import io.codekaffee.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,19 +19,8 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository repository;
 
-
-    public List<Categoria> loadInitialPayload(){
-        List<Categoria> categorias = Arrays.asList(
-                new Categoria("Informatica"),
-                new Categoria("Perfumaria"),
-                new Categoria("Jogos de Tabuleiro"),
-                new Categoria("Escritório")
-        );
-
-        return repository.saveAll(categorias);
-    }
-
-
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     public Categoria create(CategoriaDTO dto){
         Categoria categoria =  new Categoria(dto.getNome());

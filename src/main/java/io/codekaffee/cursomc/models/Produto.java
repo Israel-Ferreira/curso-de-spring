@@ -1,9 +1,9 @@
 package io.codekaffee.cursomc.models;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.codekaffee.cursomc.dto.ProdutoDTO;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,11 +12,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
-public class Categoria implements Serializable{
-
+public class Produto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -24,13 +23,26 @@ public class Categoria implements Serializable{
     private Long id;
 
     private String nome;
+    private Double preco;
 
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categorias")
-    private List<Produto> produtos = new ArrayList<>();
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "PRODUTO_CATEGORIA",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categoria> categorias = new ArrayList<>();
 
-    public Categoria(String nome){
+    public Produto(String nome, Double preco){
         this.nome = nome;
+        this.preco = preco;
     }
+
+    public Produto(ProdutoDTO dto){
+        this.nome = dto.getNome();
+        this.preco = dto.getPreco();
+    }
+
 
 }
