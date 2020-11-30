@@ -1,5 +1,8 @@
 package io.codekaffee.cursomc.controllers;
 
+import io.codekaffee.cursomc.models.Categoria;
+import io.codekaffee.cursomc.services.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +15,12 @@ import java.util.List;
 @RequestMapping("/categorias")
 public class CategoriaController {
 
+    @Autowired
+    private CategoriaService categoriaService;
+
     @GetMapping
-    public ResponseEntity<List<Object>> getCategorias(){
-        return ResponseEntity.ok(new ArrayList<>());
+    public ResponseEntity<List<Categoria>> getCategorias(){
+        var categorias = categoriaService.loadInitialPayload();
+        return ResponseEntity.ok(categorias);
     }
 }
