@@ -1,8 +1,12 @@
 package io.codekaffee.cursomc;
 
 import io.codekaffee.cursomc.models.Categoria;
+import io.codekaffee.cursomc.models.Cidade;
+import io.codekaffee.cursomc.models.Estado;
 import io.codekaffee.cursomc.models.Produto;
 import io.codekaffee.cursomc.repositories.CategoriaRepository;
+import io.codekaffee.cursomc.repositories.CidadeRepository;
+import io.codekaffee.cursomc.repositories.EstadoRepository;
 import io.codekaffee.cursomc.repositories.ProdutoRepository;
 import io.codekaffee.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +20,22 @@ import java.util.List;
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
 
-	@Autowired
     private CategoriaRepository categoriaRepository;
 
-    @Autowired
     private ProdutoRepository produtoRepository;
 
-	@Autowired
-	private CategoriaService categoriaService;
+    private EstadoRepository estadoRepository;
+    private CidadeRepository cidadeRepository;
 
-	public static void main(String[] args) {
+    @Autowired
+    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, EstadoRepository estadoRepository, CidadeRepository cidadeRepository) {
+        this.categoriaRepository = categoriaRepository;
+        this.produtoRepository = produtoRepository;
+        this.estadoRepository = estadoRepository;
+        this.cidadeRepository = cidadeRepository;
+    }
+
+    public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
 	}
 
@@ -59,5 +69,18 @@ public class CursomcApplication implements CommandLineRunner {
 
         categoriaRepository.saveAll(categorias);
         produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
+
+        Estado saoPaulo  =  new Estado("São Paulo", "SP");
+        Estado pernambuco = new Estado("Pernambuco", "PE");
+        Estado minas =  new Estado("Minas Gerais", "MG");
+
+        List<Cidade> cidades =  Arrays.asList(
+                new Cidade("Jundiaí", saoPaulo),
+                new Cidade("Olinda", pernambuco),
+                new Cidade("São Lourenço", minas)
+        );
+
+        estadoRepository.saveAll(Arrays.asList(saoPaulo, pernambuco, minas));
+        cidadeRepository.saveAll(cidades);
 	}
 }

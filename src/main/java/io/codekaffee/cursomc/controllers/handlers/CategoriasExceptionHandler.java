@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class CategoriasExceptionHandler {
@@ -18,6 +16,8 @@ public class CategoriasExceptionHandler {
     public StandardError handleCategoriaNotFoundException(CategoriaNotFoundException ex){
         return new StandardError(ex.getLocalizedMessage(), HttpStatus.NOT_FOUND.value());
     }
+
+
 
 
 }
