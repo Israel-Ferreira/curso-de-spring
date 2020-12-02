@@ -1,13 +1,8 @@
 package io.codekaffee.cursomc;
 
-import io.codekaffee.cursomc.models.Categoria;
-import io.codekaffee.cursomc.models.Cidade;
-import io.codekaffee.cursomc.models.Estado;
-import io.codekaffee.cursomc.models.Produto;
-import io.codekaffee.cursomc.repositories.CategoriaRepository;
-import io.codekaffee.cursomc.repositories.CidadeRepository;
-import io.codekaffee.cursomc.repositories.EstadoRepository;
-import io.codekaffee.cursomc.repositories.ProdutoRepository;
+import io.codekaffee.cursomc.enums.TipoCliente;
+import io.codekaffee.cursomc.models.*;
+import io.codekaffee.cursomc.repositories.*;
 import io.codekaffee.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -27,12 +22,18 @@ public class CursomcApplication implements CommandLineRunner {
     private EstadoRepository estadoRepository;
     private CidadeRepository cidadeRepository;
 
+    private ClienteRepository clienteRepository;
+    private EnderecoRepository enderecoRepository;
+
+
     @Autowired
-    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, EstadoRepository estadoRepository, CidadeRepository cidadeRepository) {
+    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, EstadoRepository estadoRepository, CidadeRepository cidadeRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.estadoRepository = estadoRepository;
         this.cidadeRepository = cidadeRepository;
+        this.clienteRepository = clienteRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
     public static void main(String[] args) {
@@ -82,5 +83,25 @@ public class CursomcApplication implements CommandLineRunner {
 
         estadoRepository.saveAll(Arrays.asList(saoPaulo, pernambuco, minas));
         cidadeRepository.saveAll(cidades);
+
+        Cliente cliente = new Cliente("José lito", "joselito@teste.com", "412.016.540-09", null, TipoCliente.PESSOA_FISICA);
+        cliente.getTelefones().addAll(Arrays.asList("(11) 999073020", "(11) 55555-5555"));
+
+        Cidade cidade = new Cidade("São Paulo", saoPaulo);
+
+        Endereco endereco1 = new Endereco("Av. Paulista","2073",null,"Consolação", "01311-300");
+        endereco1.setCidade(cidade);
+        endereco1.setCliente(cliente);
+
+        Endereco endereco2 = new Endereco("Rua Voluntários da Patria", " 1176", null, "Santana", "02010-100");
+        endereco2.setCidade(cidade);
+        endereco2.setCliente(cliente);
+
+
+
+        cidadeRepository.save(cidade);
+        clienteRepository.save(cliente);
+
+        enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2));
 	}
 }
