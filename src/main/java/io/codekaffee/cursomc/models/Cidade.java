@@ -1,6 +1,7 @@
 package io.codekaffee.cursomc.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,6 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Cidade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +18,7 @@ public class Cidade {
 
     private String nome;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;

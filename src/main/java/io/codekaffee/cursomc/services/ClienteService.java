@@ -1,12 +1,13 @@
 package io.codekaffee.cursomc.services;
 
-import ch.qos.logback.core.net.server.Client;
 import io.codekaffee.cursomc.dto.ClienteDTO;
-import io.codekaffee.cursomc.exceptions.clientes.ClienteNotFoundException;
+import io.codekaffee.cursomc.exceptions.nfex.ClienteNotFoundException;
 import io.codekaffee.cursomc.models.Cliente;
 import io.codekaffee.cursomc.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 public class ClienteService {
@@ -14,7 +15,11 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public Cliente insert(ClienteDTO clienteDTO){
+    @Autowired
+    private EnderecoService enderecoService;
+
+    @Transactional
+    public  Cliente insert(ClienteDTO clienteDTO){
         Cliente cliente = new Cliente(clienteDTO);
         return clienteRepository.save(cliente);
     }

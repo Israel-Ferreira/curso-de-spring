@@ -1,6 +1,7 @@
 package io.codekaffee.cursomc.models;
 
-import io.codekaffee.cursomc.dto.EnderecoDTO;
+import io.codekaffee.cursomc.dto.enderecos.EnderecoDTO;
+import io.codekaffee.cursomc.dto.enderecos.NewEnderecoDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,6 +34,20 @@ public class Endereco implements Serializable {
     private Cidade cidade;
 
 
+    public Endereco(EnderecoDTO enderecoDTO, Cliente cliente, Cidade cidade){
+        this.numero = enderecoDTO.getNumero();
+        this.logradouro = enderecoDTO.getLogradouro();
+        this.complemento = enderecoDTO.getComplemento();
+        this.cep = enderecoDTO.getCep();
+        this.bairro = enderecoDTO.getBairro();
+
+        this.cidade = cidade;
+        this.cliente = cliente;
+    }
+
+
+
+
     public Endereco(String logradouro, String numero, String complemento, String bairro, String cep) {
         this.logradouro = logradouro;
         this.numero = numero;
@@ -41,13 +56,4 @@ public class Endereco implements Serializable {
         this.cep = cep;
     }
 
-    public Endereco(String logradouro, String numero, String complemento, String bairro, String cep, Cliente cliente, Cidade cidade) {
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cep = cep;
-        this.cliente = cliente;
-        this.cidade = cidade;
-    }
 }

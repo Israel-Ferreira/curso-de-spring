@@ -1,4 +1,4 @@
-package io.codekaffee.cursomc.exceptions.categoria;
+package io.codekaffee.cursomc.exceptions.nfex;
 
 public class CategoriaNotFoundException extends RuntimeException {
     public CategoriaNotFoundException() {

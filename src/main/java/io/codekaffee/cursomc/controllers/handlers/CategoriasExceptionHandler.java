@@ -1,7 +1,7 @@
 package io.codekaffee.cursomc.controllers.handlers;
 
 import io.codekaffee.cursomc.exceptions.StandardError;
-import io.codekaffee.cursomc.exceptions.categoria.CategoriaNotFoundException;
+import io.codekaffee.cursomc.exceptions.nfex.CategoriaNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

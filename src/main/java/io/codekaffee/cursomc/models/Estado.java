@@ -1,8 +1,10 @@
 package io.codekaffee.cursomc.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ public class Estado {
     private String nome;
     private String sigla;
 
+    @ToString.Exclude
+    @JsonManagedReference
     @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Cidade> cidades = new ArrayList<>();
 

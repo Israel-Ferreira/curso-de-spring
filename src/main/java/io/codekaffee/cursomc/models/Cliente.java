@@ -4,6 +4,7 @@ import io.codekaffee.cursomc.dto.ClienteDTO;
 import io.codekaffee.cursomc.enums.TipoCliente;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@ToString(exclude = "enderecos")
 @NoArgsConstructor
 public class Cliente implements Serializable {
 
@@ -45,7 +47,8 @@ public class Cliente implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoCliente tipo;
 
-    @OneToMany(mappedBy = "cliente")
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
 
@@ -62,13 +65,6 @@ public class Cliente implements Serializable {
         this.tipo = tipo;
     }
 
-    public Cliente(@Email String email, @CPF String cpf, @CNPJ String cnpj, TipoCliente tipo) {
-        this.email = email;
-        this.cpf = cpf;
-        this.cnpj = cnpj;
-        this.tipo = tipo;
-    }
-
 
     public Cliente(ClienteDTO clienteDTO){
         this.email = clienteDTO.getEmail();
@@ -77,6 +73,6 @@ public class Cliente implements Serializable {
         this.nome = clienteDTO.getNome();
 
         this.telefones = clienteDTO.getTelefones();
-        this.tipo = TipoCliente.toEnum(clienteDTO.getId());
+        this.tipo = TipoCliente.toEnum(clienteDTO.getTipoClientID());
     }
 }

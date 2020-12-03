@@ -1,16 +1,18 @@
-package io.codekaffee.cursomc.dto;
+package io.codekaffee.cursomc.dto.enderecos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.codekaffee.cursomc.dto.ClienteDTO;
 import io.codekaffee.cursomc.models.Cidade;
 import io.codekaffee.cursomc.models.Endereco;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class EnderecoDTO {
     private String logradouro;
     private String numero;
@@ -19,11 +21,7 @@ public class EnderecoDTO {
     private String bairro;
     private String cep;
 
-    private Cidade cidade;
 
-    @JsonBackReference
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private ClienteDTO cliente;
 
     public EnderecoDTO(Endereco endereco){
         this.logradouro = endereco.getLogradouro();
@@ -32,9 +30,6 @@ public class EnderecoDTO {
 
         this.bairro = endereco.getBairro();
         this.cep = endereco.getCep();
-        this.cidade = endereco.getCidade();
-        this.cliente = new ClienteDTO(endereco.getCliente());
     }
-
 
 }

@@ -1,16 +1,13 @@
 package io.codekaffee.cursomc.services;
 
 import io.codekaffee.cursomc.dto.CategoriaDTO;
-import io.codekaffee.cursomc.exceptions.categoria.CategoriaNotFoundException;
+import io.codekaffee.cursomc.exceptions.nfex.CategoriaNotFoundException;
 import io.codekaffee.cursomc.models.Categoria;
-import io.codekaffee.cursomc.models.Produto;
 import io.codekaffee.cursomc.repositories.CategoriaRepository;
 import io.codekaffee.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
