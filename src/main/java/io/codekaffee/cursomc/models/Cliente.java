@@ -52,6 +52,10 @@ public class Cliente implements Serializable {
     private List<Endereco> enderecos = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Pedido> pedidos = new ArrayList<>();
+
+
     @ElementCollection
     @CollectionTable(name = "telefone")
     private Set<String> telefones =  new HashSet<>();
