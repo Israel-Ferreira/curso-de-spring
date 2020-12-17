@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
@@ -13,7 +14,9 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class PagamentoBoleto extends Pagamento{
+public class PagamentoBoleto extends Pagamento implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private LocalDate dataVencimento;
     private LocalDate dataPagamento;

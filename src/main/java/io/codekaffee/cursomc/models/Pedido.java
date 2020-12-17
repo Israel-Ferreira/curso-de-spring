@@ -1,26 +1,31 @@
 package io.codekaffee.cursomc.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Pedido {
+public class Pedido implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @CreatedDate
     private LocalDateTime instante;
+
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
@@ -29,13 +34,21 @@ public class Pedido {
     @JoinColumn(name = "endereco_id")
     private Endereco enderecoEntrega;
 
-
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+
+    @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ItemPedido> items = new HashSet<>();
 
     public Pedido(Endereco enderecoEntrega, Cliente cliente) {
         this.enderecoEntrega = enderecoEntrega;
         this.cliente = cliente;
     }
+
+
+
+
+
 }

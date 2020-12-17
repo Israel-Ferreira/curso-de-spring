@@ -2,18 +2,20 @@ package io.codekaffee.cursomc.models;
 
 
 import io.codekaffee.cursomc.enums.EstadoPagamento;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Pagamento {
+public abstract class Pagamento implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     private Long id;
 
@@ -32,5 +34,20 @@ public abstract class Pagamento {
     public Pagamento(EstadoPagamento estadoPagamento, Pedido pedido){
         this.estadoPagamento = estadoPagamento;
         this.pedido = pedido;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pagamento)) return false;
+
+        Pagamento pagamento = (Pagamento) o;
+
+        return getId().equals(pagamento.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
     }
 }

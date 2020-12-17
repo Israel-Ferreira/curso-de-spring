@@ -33,9 +33,11 @@ public class CursomcApplication implements CommandLineRunner {
     private PedidoRepository pedidoRepository;
     private PagamentoRepository  pagamentoRepository;
 
+    private ItemPedidoRepository itemPedidoRepository;
+
 
     @Autowired
-    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, EstadoRepository estadoRepository, CidadeRepository cidadeRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, PedidoRepository pedidoRepository, PagamentoRepository pagamentoRepository) {
+    public CursomcApplication(CategoriaRepository categoriaRepository, ProdutoRepository produtoRepository, EstadoRepository estadoRepository, CidadeRepository cidadeRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, PedidoRepository pedidoRepository, PagamentoRepository pagamentoRepository, ItemPedidoRepository itemPedidoRepository) {
         this.categoriaRepository = categoriaRepository;
         this.produtoRepository = produtoRepository;
         this.estadoRepository = estadoRepository;
@@ -44,6 +46,7 @@ public class CursomcApplication implements CommandLineRunner {
         this.enderecoRepository = enderecoRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.pedidoRepository = pedidoRepository;
+        this.itemPedidoRepository = itemPedidoRepository;
     }
 
     public static void main(String[] args) {
@@ -127,7 +130,7 @@ public class CursomcApplication implements CommandLineRunner {
         LocalDate dataVencimento = LocalDate.of(2021, Month.JANUARY, 30);
         LocalDate dataPagamento = LocalDate.of(2020, Month.DECEMBER, 1);
 
-        Pagamento pagamento2 = new PagamentoBoleto(EstadoPagamento.PENDENTE, pedido2,dataVencimento, null);
+        Pagamento pagamento2 = new PagamentoBoleto(EstadoPagamento.PENDENTE, pedido2,dataVencimento, dataPagamento);
 
         pedido1.setPagamento(pagamento1);
         pedido2.setPagamento(pagamento2);
@@ -138,5 +141,21 @@ public class CursomcApplication implements CommandLineRunner {
         pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
 
         clienteRepository.save(cliente);
+
+        ItemPedido itemPedido1 = new ItemPedido(pedido1,p1,500.00, 6);
+        ItemPedido itemPedido2 = new ItemPedido(pedido2, p3,50.00 , 3);
+
+        pedido1.getItems().add(itemPedido1);
+        pedido2.getItems().add(itemPedido2);
+
+        p1.getItemPedidos().add(itemPedido1);
+        p3.getItemPedidos().add(itemPedido2);
+
+
+        produtoRepository.saveAll(Arrays.asList(p1, p3));
+        pedidoRepository.saveAll(Arrays.asList(pedido1, pedido2));
+
+        itemPedidoRepository.saveAll(Arrays.asList(itemPedido1, itemPedido2));
+
 	}
 }

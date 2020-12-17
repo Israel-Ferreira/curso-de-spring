@@ -7,13 +7,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 
 
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class PagamentoCartao extends Pagamento{
+@EqualsAndHashCode(callSuper = false)
+public class PagamentoCartao extends Pagamento implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Integer numeroParcelas;
 
     public PagamentoCartao(EstadoPagamento estadoPagamento, Pedido pedido, Integer numeroParcelas) {

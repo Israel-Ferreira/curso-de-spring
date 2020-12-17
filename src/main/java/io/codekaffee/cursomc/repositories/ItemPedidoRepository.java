@@ -1,0 +1,7 @@
+package io.codekaffee.cursomc.repositories;
+
+import io.codekaffee.cursomc.models.ItemPedido;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ItemPedidoRepository  extends JpaRepository<ItemPedido, Long> {
+}
