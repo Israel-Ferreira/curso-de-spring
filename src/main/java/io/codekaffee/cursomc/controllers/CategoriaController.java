@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,10 +59,15 @@ public class CategoriaController {
 
 
     @PostMapping
-    public ResponseEntity<CategoriaDTO> createCategoria(@RequestBody CategoriaDTO body){
+    public ResponseEntity<Void> createCategoria(@RequestBody CategoriaDTO body){
         Categoria categoria = categoriaService.create(body);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/" + categoria.getId()).build().toUri();
+
+
         CategoriaDTO response = new CategoriaDTO(categoria);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.created(uri).build();
     }
 }
