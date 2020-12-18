@@ -1,5 +1,9 @@
 package io.codekaffee.cursomc.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.EmbeddedId;
@@ -16,6 +20,7 @@ public class ItemPedido {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
+    @JsonBackReference
     private ItemPedidoPK id;
 
     private Double desconto;
@@ -36,10 +41,13 @@ public class ItemPedido {
         this.preco = getProduto().getPreco() * quantidade;
     }
 
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }
 
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Produto getProduto(){
         return id.getProduto();
     }

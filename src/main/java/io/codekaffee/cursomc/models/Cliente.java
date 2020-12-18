@@ -1,5 +1,7 @@
 package io.codekaffee.cursomc.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.codekaffee.cursomc.dto.ClienteDTO;
 import io.codekaffee.cursomc.enums.TipoCliente;
 import lombok.Data;
@@ -47,11 +49,12 @@ public class Cliente implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoCliente tipo;
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
 
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Pedido> pedidos = new ArrayList<>();
 

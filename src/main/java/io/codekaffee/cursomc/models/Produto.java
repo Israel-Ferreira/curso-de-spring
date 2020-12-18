@@ -2,6 +2,7 @@ package io.codekaffee.cursomc.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.codekaffee.cursomc.dto.ProdutoDTO;
 import lombok.*;
@@ -38,6 +39,7 @@ public class Produto implements Serializable {
     private List<Categoria> categorias = new ArrayList<>();
 
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "id.produto")
     private Set<ItemPedido> itemPedidos =  new HashSet<>();
 
@@ -52,6 +54,7 @@ public class Produto implements Serializable {
     }
 
 
+    @JsonIgnore
     public List<Pedido> getPedidos(){
         return itemPedidos.stream().map(ItemPedido::getPedido)
                 .collect(Collectors.toList());

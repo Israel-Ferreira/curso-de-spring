@@ -1,5 +1,9 @@
 package io.codekaffee.cursomc.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,17 +28,21 @@ public class Pedido implements Serializable {
     private Long id;
 
     @CreatedDate
+    @JsonFormat(pattern = "dd/MM/yyyy - HH:mm")
     private LocalDateTime instante;
 
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "endereco_id")
     private Endereco enderecoEntrega;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 

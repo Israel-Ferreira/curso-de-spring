@@ -1,14 +1,16 @@
 package io.codekaffee.cursomc.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.codekaffee.cursomc.enums.EstadoPagamento;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
+
+@Data
 @Entity
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -24,6 +26,7 @@ public abstract class Pagamento implements Serializable {
 
     @MapsId
     @OneToOne
+    @JsonBackReference
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
@@ -36,18 +39,4 @@ public abstract class Pagamento implements Serializable {
         this.pedido = pedido;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Pagamento)) return false;
-
-        Pagamento pagamento = (Pagamento) o;
-
-        return getId().equals(pagamento.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getId().hashCode();
-    }
 }

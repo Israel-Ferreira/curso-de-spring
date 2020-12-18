@@ -1,5 +1,7 @@
 package io.codekaffee.cursomc.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.codekaffee.cursomc.dto.enderecos.EnderecoDTO;
 import io.codekaffee.cursomc.dto.enderecos.NewEnderecoDTO;
 import lombok.Data;
@@ -26,8 +28,12 @@ public class Endereco implements Serializable {
 
 
     @ManyToOne
+    @JsonBackReference
     private Cliente cliente;
 
+    @ManyToOne
+    @JsonBackReference
+    private Pedido pedido;
 
     @OneToOne
     @JoinColumn(name = "cidade_id")
