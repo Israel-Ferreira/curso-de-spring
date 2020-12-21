@@ -8,6 +8,10 @@ import io.codekaffee.cursomc.repositories.CategoriaRepository;
 import io.codekaffee.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,5 +58,15 @@ public class CategoriaService {
         }catch (DataIntegrityViolationException exception){
             throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos");
         }
+    }
+
+
+    public Page<Categoria> findPage(Integer pageNumber, Integer linesPerPage, String orderBy, String direction){
+        Pageable page = PageRequest.of(pageNumber, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return repository.findAll(page);
+    }
+
+    public Page<Categoria> findPage(Pageable pageable){
+        return repository.findAll(pageable);
     }
 }

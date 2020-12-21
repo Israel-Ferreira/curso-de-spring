@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -67,6 +68,14 @@ public class CursomcApplication implements CommandLineRunner {
         Categoria cat3 = new Categoria("Jogos de Tabuleiro");
         Categoria cat4 = new Categoria("Escritório");
 
+        Categoria cat5 = new Categoria("Vestuário");
+        Categoria cat6 = new Categoria("Cama,Mesa e Banho");
+        Categoria cat7 = new Categoria("Games");
+        Categoria cat8 = new Categoria("Eletrônicos");
+        Categoria cat9 = new Categoria("Eletrodosmeticos");
+        Categoria cat10 = new Categoria("Telefonia e Smartphones");
+
+
         cat1.getProdutos().addAll(Arrays.asList(p1, p2));
 
         cat4.getProdutos().add(p2);
@@ -79,7 +88,7 @@ public class CursomcApplication implements CommandLineRunner {
         p4.getCategorias().add(cat3);
 
 
-        List<Categoria> categorias = Arrays.asList(cat1, cat2, cat3, cat4);
+        List<Categoria> categorias = Arrays.asList(cat1, cat2, cat3, cat4, cat5,cat6, cat7, cat8, cat9, cat10);
 
         categoriaRepository.saveAll(categorias);
         produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4));

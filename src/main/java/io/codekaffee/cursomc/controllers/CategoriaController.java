@@ -4,6 +4,10 @@ import io.codekaffee.cursomc.dto.CategoriaDTO;
 import io.codekaffee.cursomc.models.Categoria;
 import io.codekaffee.cursomc.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +15,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,11 +32,7 @@ public class CategoriaController {
         var categorias = categoriaService.findAll();
 
         List<CategoriaDTO> categoriaDTOS =  categorias.stream()
-                .map(cat -> {
-                    var category = new CategoriaDTO(cat);
-                    category.fillProdutosList(cat.getProdutos());
-                    return category;
-                }).collect(Collectors.toList());
+                .map(CategoriaDTO::new).collect(Collectors.toList());
 
         return ResponseEntity.ok(categoriaDTOS);
     }
@@ -71,4 +73,11 @@ public class CategoriaController {
 
         return ResponseEntity.created(uri).build();
     }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<CategoriaDTO>> findPage (Pageable pageable){
+        Page<CategoriaDTO> categorias =  this.categoriaService.findPage(pageable).map(CategoriaDTO::new);
+        return  ResponseEntity.ok(categorias);
+    }
+
 }
