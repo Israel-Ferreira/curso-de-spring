@@ -1,5 +1,6 @@
 package io.codekaffee.cursomc.controllers;
 
+import io.codekaffee.cursomc.annotations.ApiPageable;
 import io.codekaffee.cursomc.dto.CategoriaDTO;
 import io.codekaffee.cursomc.models.Categoria;
 import io.codekaffee.cursomc.services.CategoriaService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -75,9 +77,12 @@ public class CategoriaController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<CategoriaDTO>> findPage (Pageable pageable){
+    @ApiPageable
+    public ResponseEntity<Page<CategoriaDTO>> findPage (@ApiIgnore Pageable pageable){
         Page<CategoriaDTO> categorias =  this.categoriaService.findPage(pageable).map(CategoriaDTO::new);
         return  ResponseEntity.ok(categorias);
     }
+
+
 
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SwaggerPageable {
+
     private Integer size;
     private Integer page;
     private String sort;
