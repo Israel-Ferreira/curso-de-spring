@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public class CategoriaController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO) {
+    public ResponseEntity<CategoriaDTO> updateCategoria(@PathVariable Long id, @RequestBody @Valid CategoriaDTO categoriaDTO) {
         var categoria = categoriaService.update(id, categoriaDTO);
         CategoriaDTO response =  new CategoriaDTO(categoria);
         return  ResponseEntity.ok(response);
@@ -64,7 +65,7 @@ public class CategoriaController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createCategoria(@RequestBody CategoriaDTO body){
+    public ResponseEntity<Void> createCategoria(@Valid @RequestBody CategoriaDTO body){
         Categoria categoria = categoriaService.create(body);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -78,7 +79,8 @@ public class CategoriaController {
 
     @GetMapping("/page")
     @ApiPageable
-    public ResponseEntity<Page<CategoriaDTO>> findPage (@ApiIgnore Pageable pageable){
+    public ResponseEntity<Page<CategoriaDTO>> findPage (@ApiIgnore @PageableDefault(size = 24,value = 0) Pageable pageable){
+        System.out.println(pageable);
         Page<CategoriaDTO> categorias =  this.categoriaService.findPage(pageable).map(CategoriaDTO::new);
         return  ResponseEntity.ok(categorias);
     }

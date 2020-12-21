@@ -69,4 +69,6 @@ public class CategoriaService {
     public Page<Categoria> findPage(Pageable pageable){
         return repository.findAll(pageable);
     }
+
+
 }
