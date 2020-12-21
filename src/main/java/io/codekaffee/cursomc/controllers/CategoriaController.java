@@ -39,6 +39,7 @@ public class CategoriaController {
     public ResponseEntity<CategoriaDTO> getById(@PathVariable("id") Long id){
         Categoria categoria =  categoriaService.findById(id);
         CategoriaDTO response =  new CategoriaDTO(categoria);
+        response.fillProdutosList(categoria.getProdutos());
 
         return ResponseEntity.ok(response);
     }
