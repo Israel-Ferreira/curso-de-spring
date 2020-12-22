@@ -1,17 +1,17 @@
 package io.codekaffee.cursomc.controllers.handlers;
 
+
 import io.codekaffee.cursomc.exceptions.StandardError;
-import io.codekaffee.cursomc.exceptions.nfex.NotFoundException;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import io.codekaffee.cursomc.exceptions.ValidationError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,11 +32,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> handleMethodArgumentNotValidExc(MethodArgumentNotValidException exc){
-        List<String> details =  exc.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+        ValidationError validationError =  new ValidationError("Erro de Validação",  HttpStatus.BAD_REQUEST.value());
 
-        StandardError standardError = new StandardError("Erro de Validação", HttpStatus.BAD_REQUEST.value(), details);
-        return ResponseEntity.ok(standardError);
+        exc.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            validationError.addError(fieldError.getField(), fieldError.getDefaultMessage());
+        });
+
+        return ResponseEntity.badRequest().body(validationError);
     }
 
 }

@@ -14,7 +14,7 @@ public class StandardError {
     private String message;
     private Instant moment;
 
-    private List<String> details;
+
 
 
     public StandardError(String message, Integer status){
@@ -24,9 +24,7 @@ public class StandardError {
     }
 
 
-    public StandardError(String message, Integer status, List<String> details){
-        this.message = message;
-        this.status = status;
-        this.details = details;
-    }
+
+
+
 }
