@@ -9,7 +9,13 @@ import io.codekaffee.cursomc.models.Cliente;
 import io.codekaffee.cursomc.models.Endereco;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,30 +28,19 @@ public class ClienteDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
+    @NotEmpty(message = "Preenchimento Obrigatorio")
+    @Length(min = 6, max=120, message = "O  tamanho deve ter entre 6 & 120 caracteres")
     private String nome;
+
+    @Email
+    @NotEmpty(message = "Preenchimento Obrigatorio")
     private String email;
-    private Set<String> telefones = new HashSet<>();
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Long tipoClientID;
-
-    private String cpf;
-    private String cnpj;
-
-    @JsonManagedReference
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<ViewEnderecoDTO> enderecos = new ArrayList<>();
 
 
     public ClienteDTO(Cliente cliente){
         this.id = cliente.getId();
         this.nome = cliente.getNome();
         this.email = cliente.getEmail();
-        this.telefones = cliente.getTelefones();
-
-
-        this.cpf = cliente.getCpf();
-        this.cnpj = cliente.getCnpj();
     }
 
 

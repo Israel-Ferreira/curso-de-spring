@@ -33,6 +33,8 @@ public class CategoriaDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<ProdutoDTO> produtos = new ArrayList<>();
 
+
+
     public CategoriaDTO(Categoria categoria){
         this.id = categoria.getId();
         this.nome = categoria.getNome();

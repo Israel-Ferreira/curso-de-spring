@@ -3,12 +3,11 @@ package io.codekaffee.cursomc.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.codekaffee.cursomc.dto.ClienteDTO;
+import io.codekaffee.cursomc.dto.clientes.PostClientDTO;
 import io.codekaffee.cursomc.enums.TipoCliente;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -38,14 +37,8 @@ public class Cliente implements Serializable {
     @Column(unique = true)
     private String email;
 
+    private String cpfOrCnpj;
 
-    @CPF
-    @Column(nullable = true)
-    private String cpf;
-
-    @CNPJ
-    @Column(nullable = true)
-    private String cnpj;
 
     @Enumerated(EnumType.STRING)
     private TipoCliente tipo;
@@ -65,22 +58,28 @@ public class Cliente implements Serializable {
     private Set<String> telefones =  new HashSet<>();
 
 
-    public Cliente(String nome, @Email String email, @CPF String cpf, @CNPJ String cnpj, TipoCliente tipo) {
+    public Cliente(String nome, @Email String email, String cpfOrCnpj, TipoCliente tipo) {
         this.nome = nome;
         this.email = email;
-        this.cpf = cpf;
-        this.cnpj = cnpj;
+        this.cpfOrCnpj = cpfOrCnpj;
         this.tipo = tipo;
     }
 
 
-    public Cliente(ClienteDTO clienteDTO){
+    public Cliente(PostClientDTO clienteDTO){
         this.email = clienteDTO.getEmail();
-        this.cpf = clienteDTO.getCpf();
-        this.cnpj = clienteDTO.getCnpj();
+        this.cpfOrCnpj = clienteDTO.getCpfOrCnpj();
         this.nome = clienteDTO.getNome();
 
         this.telefones = clienteDTO.getTelefones();
         this.tipo = TipoCliente.toEnum(clienteDTO.getTipoClientID());
+    }
+
+    public Cliente updateData(ClienteDTO clienteDTO){
+
+        this.setNome(clienteDTO.getNome());
+        this.setEmail(clienteDTO.getEmail());
+
+        return  this;
     }
 }

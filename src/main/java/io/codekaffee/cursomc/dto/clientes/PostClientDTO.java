@@ -8,6 +8,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -18,7 +22,13 @@ public class PostClientDTO extends ClienteDTO {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long tipoClientID;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
     private NewEnderecoDTO enderecoDTO;
+
+    private String cpfOrCnpj;
+
+
+    @Size(min = 1, message = "O Usuário deve ter no minimo 1 Telefone")
+    private Set<String> telefones = new HashSet<>();
 
 }
