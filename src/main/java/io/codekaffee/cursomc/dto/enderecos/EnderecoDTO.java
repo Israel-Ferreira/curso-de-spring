@@ -8,17 +8,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnderecoDTO {
+
+    @NotEmpty(message = "Preenchimento Obrigatório")
     private String logradouro;
+
+    @NotEmpty(message = "Preenchimento Obrigatório")
     private String numero;
+
+
     private String complemento;
 
     private String bairro;
+
+    @NotEmpty
     private String cep;
 
 

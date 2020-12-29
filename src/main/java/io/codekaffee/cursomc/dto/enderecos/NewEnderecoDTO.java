@@ -7,12 +7,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+
 
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class NewEnderecoDTO extends EnderecoDTO {
 
+    @NotEmpty
     private String cidade;
 
     public NewEnderecoDTO(String logradouro, String numero, String complemento, String bairro, String cep, String cidade) {

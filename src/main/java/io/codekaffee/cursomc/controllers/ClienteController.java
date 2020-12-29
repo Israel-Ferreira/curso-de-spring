@@ -3,6 +3,7 @@ package io.codekaffee.cursomc.controllers;
 import io.codekaffee.cursomc.annotations.ApiPageable;
 import io.codekaffee.cursomc.dto.ClienteDTO;
 import io.codekaffee.cursomc.dto.clientes.PostClientDTO;
+import io.codekaffee.cursomc.dto.clientes.UpdateClienteDTO;
 import io.codekaffee.cursomc.dto.clientes.ViewClientDTO;
 import io.codekaffee.cursomc.dto.enderecos.EnderecoDTO;
 import io.codekaffee.cursomc.dto.enderecos.ViewEnderecoDTO;
@@ -69,9 +70,9 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody ClienteDTO clienteDTO){
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UpdateClienteDTO clienteDTO){
         Cliente cliente =  this.clienteService.update(id, clienteDTO);
-        URI uri = ResourceUtils.resourceURI(cliente.getId());
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
         return ResponseEntity.noContent().location(uri).build();
     }
 

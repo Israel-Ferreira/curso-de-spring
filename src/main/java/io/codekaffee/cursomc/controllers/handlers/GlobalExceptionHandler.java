@@ -1,6 +1,7 @@
 package io.codekaffee.cursomc.controllers.handlers;
 
 
+import io.codekaffee.cursomc.exceptions.DataIntegrityException;
 import io.codekaffee.cursomc.exceptions.StandardError;
 import io.codekaffee.cursomc.exceptions.ValidationError;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardError> handleException(Exception e){
+        e.printStackTrace();
         StandardError standardError = new StandardError(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(standardError);
     }
+
 
 
     @ExceptionHandler(ConstraintViolationException.class)

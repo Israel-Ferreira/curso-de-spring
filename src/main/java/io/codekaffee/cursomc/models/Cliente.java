@@ -49,7 +49,7 @@ public class Cliente implements Serializable {
 
 
     @JsonBackReference
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
 

@@ -31,8 +31,8 @@ public class ClienteService {
     public  Cliente insert(PostClientDTO clienteDTO){
         Cliente cliente = new Cliente(clienteDTO);
 
-        Cidade cidade = cidadeService.findByNome(clienteDTO.getEnderecoDTO().getCidade());
-        Endereco endereco = new Endereco(clienteDTO.getEnderecoDTO(), cliente, cidade);
+        Cidade cidade = cidadeService.findByNome(clienteDTO.getEndereco().getCidade());
+        Endereco endereco = new Endereco(clienteDTO.getEndereco(), cliente, cidade);
 
         cliente.getEnderecos().add(endereco);
 
@@ -68,7 +68,7 @@ public class ClienteService {
             Cliente cliente = this.findById(id);
             this.clienteRepository.delete(cliente);
         }catch (DataIntegrityViolationException exception){
-            throw new DataIntegrityException(exception.getLocalizedMessage(),exception.getCause());
+            throw new DataIntegrityException("Não tem como deletar um cliente com pedidos",exception.getCause());
         }
     }
 

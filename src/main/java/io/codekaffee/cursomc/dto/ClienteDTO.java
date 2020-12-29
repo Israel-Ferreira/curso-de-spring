@@ -2,6 +2,7 @@ package io.codekaffee.cursomc.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.codekaffee.cursomc.annotations.ClientUpdate;
 import io.codekaffee.cursomc.dto.enderecos.EnderecoDTO;
 import io.codekaffee.cursomc.dto.enderecos.NewEnderecoDTO;
 import io.codekaffee.cursomc.dto.enderecos.ViewEnderecoDTO;
