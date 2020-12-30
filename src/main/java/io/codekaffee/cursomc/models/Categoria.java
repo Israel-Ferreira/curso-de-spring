@@ -26,7 +26,7 @@ public class Categoria implements Serializable{
     private String nome;
 
     @JsonManagedReference
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categorias")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categorias", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
     public Categoria(String nome){

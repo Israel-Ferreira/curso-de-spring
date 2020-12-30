@@ -30,7 +30,7 @@ public class Produto implements Serializable {
     private Double preco;
 
     @JsonBackReference
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "PRODUTO_CATEGORIA",
             joinColumns = @JoinColumn(name = "produto_id"),

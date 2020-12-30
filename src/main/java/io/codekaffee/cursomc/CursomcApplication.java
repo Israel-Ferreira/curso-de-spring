@@ -62,6 +62,15 @@ public class CursomcApplication implements CommandLineRunner {
         Produto p3 = new Produto("Perfume Boticario Malbec 150ml", 215.00);
         Produto p4 = new Produto("Jogo X-Wing Miniature Game", 350.00);
 
+        Produto p5 = new Produto("Mesa de Escritório", 450.00);
+        Produto p6 = new Produto("SSD Samsung 480 GB", 650.00);
+        Produto p7 = new Produto("Smartphone Xiaomi Mi 10", 4600.00);
+        Produto p8 = new Produto("Playstation 5", 5000.00);
+        Produto p9 = new Produto("Mouse Logitech G92", 4500.00 );
+        Produto p10 = new Produto("Conj. de 6 toalhas grandes Santista ",100.00);
+        Produto p11 = new Produto("Smartphone Motorola Moto G8 64 GB", 1300.00);
+        Produto p12 = new Produto("Notebook Gamer Samsung Odissey, 1 TB HD, 128 GB SSD, 16 GB RAM, Placa de Video RTX 2060 6GB", 5700.00);
+
 
         Categoria cat1 = new Categoria("Informatica");
         Categoria cat2 = new Categoria("Perfumaria");
@@ -76,22 +85,36 @@ public class CursomcApplication implements CommandLineRunner {
         Categoria cat10 = new Categoria("Telefonia e Smartphones");
 
 
-        cat1.getProdutos().addAll(Arrays.asList(p1, p2));
+        cat1.getProdutos().addAll(Arrays.asList(p1, p2, p6, p9, p12));
+        cat7.getProdutos().addAll(Arrays.asList(p8,p9, p12));
+        cat10.getProdutos().addAll(Arrays.asList(p7, p11));
 
-        cat4.getProdutos().add(p2);
+
+        cat4.getProdutos().addAll(Arrays.asList(p2,p5));
         cat2.getProdutos().add(p3);
         cat3.getProdutos().add(p4);
+
+        cat6.getProdutos().add(p10);
 
         p1.getCategorias().add(cat1);
         p2.getCategorias().addAll(Arrays.asList(cat1, cat4));
         p3.getCategorias().add(cat2);
         p4.getCategorias().add(cat3);
+        p5.getCategorias().add(cat4);
+        p8.getCategorias().add(cat7);
+        p6.getCategorias().add(cat1);
+        p7.getCategorias().add(cat10);
+        p9.getCategorias().addAll(Arrays.asList(cat1,cat7));
+        p10.getCategorias().add(cat6);
+        p11.getCategorias().add(cat10);
+        p12.getCategorias().add(cat1);
+
 
 
         List<Categoria> categorias = Arrays.asList(cat1, cat2, cat3, cat4, cat5,cat6, cat7, cat8, cat9, cat10);
 
         categoriaRepository.saveAll(categorias);
-        produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
+        produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4,p5,p6,p7,p8,p9,p10,p11,p12));
 
         Estado saoPaulo  =  new Estado("São Paulo", "SP");
         Estado pernambuco = new Estado("Pernambuco", "PE");
