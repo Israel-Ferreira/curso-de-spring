@@ -80,7 +80,6 @@ public class CategoriaController {
     @GetMapping("/page")
     @ApiPageable
     public ResponseEntity<Page<CategoriaDTO>> findPage (@ApiIgnore @PageableDefault(size = 24,value = 0) Pageable pageable){
-        System.out.println(pageable);
         Page<CategoriaDTO> categorias =  this.categoriaService.findPage(pageable).map(CategoriaDTO::new);
         return  ResponseEntity.ok(categorias);
     }

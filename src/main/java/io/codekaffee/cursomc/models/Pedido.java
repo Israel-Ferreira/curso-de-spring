@@ -55,6 +55,11 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
+    public Double getValorTotal(){
+        return items.stream().map(ItemPedido::getSubTotal)
+                .reduce(0.0,Double::sum);
+    }
+
 
 
 

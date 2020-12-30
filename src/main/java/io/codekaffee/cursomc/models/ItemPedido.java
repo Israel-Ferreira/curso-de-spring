@@ -38,12 +38,16 @@ public class ItemPedido {
         this.id = new ItemPedidoPK(produto, pedido);
         this.desconto = desconto;
         this.quantidade = quantidade;
-        this.preco = getProduto().getPreco() * quantidade;
     }
 
     @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
+    }
+
+    public Double getSubTotal(){
+        Double precoProduto = getProduto().getPreco();
+        return (precoProduto * quantidade) - desconto;
     }
 
 

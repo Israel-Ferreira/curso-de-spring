@@ -15,4 +15,9 @@ public class PedidoService {
         return pedidoRepository.findById(id)
                 .orElseThrow(PedidoNotFoundException::new);
     }
+
+    public Pedido insert(Pedido pedido){
+        System.out.println(pedido);
+        return pedido;
+    }
 }

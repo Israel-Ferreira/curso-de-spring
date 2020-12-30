@@ -1,5 +1,6 @@
 package io.codekaffee.cursomc.models;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.codekaffee.cursomc.enums.EstadoPagamento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@JsonTypeName("pagamentoCartao")
 public class PagamentoCartao extends Pagamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
