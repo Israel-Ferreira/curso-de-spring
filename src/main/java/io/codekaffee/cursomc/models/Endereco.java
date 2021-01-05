@@ -1,6 +1,7 @@
 package io.codekaffee.cursomc.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.codekaffee.cursomc.dto.enderecos.EnderecoDTO;
 import io.codekaffee.cursomc.dto.enderecos.NewEnderecoDTO;
@@ -28,11 +29,11 @@ public class Endereco implements Serializable {
 
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     private Cliente cliente;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     private Pedido pedido;
 
     @OneToOne

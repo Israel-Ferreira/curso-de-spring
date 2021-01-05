@@ -1,9 +1,6 @@
 package io.codekaffee.cursomc.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.EmbeddedId;
@@ -15,20 +12,22 @@ import java.io.Serializable;
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class ItemPedido {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    @JsonBackReference
-    private ItemPedidoPK id;
+    @JsonIgnore
+    private ItemPedidoPK id = new ItemPedidoPK();
 
     private Double desconto;
     private Integer quantidade;
     private Double preco;
 
     public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
-        this.id =  new ItemPedidoPK(produto, pedido);
+        this.id =  new ItemPedidoPK();
+        this.id.setPedido(pedido);
+        this.setProduto(produto);
+
         this.desconto = desconto;
         this.quantidade = quantidade;
         this.preco = preco;
@@ -39,6 +38,7 @@ public class ItemPedido {
         this.desconto = desconto;
         this.quantidade = quantidade;
     }
+
 
     @JsonIgnore
     public Pedido getPedido(){
@@ -54,6 +54,16 @@ public class ItemPedido {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Produto getProduto(){
         return id.getProduto();
+    }
+
+
+    public void setProduto(Produto produto){
+        System.out.println(produto.getNome());
+        this.id.setProduto(produto);
+    }
+
+    public void setPedido(Pedido pedido){
+        this.id.setPedido(pedido);
     }
 
 }

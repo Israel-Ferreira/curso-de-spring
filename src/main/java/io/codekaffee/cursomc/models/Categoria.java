@@ -1,9 +1,6 @@
 package io.codekaffee.cursomc.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import io.codekaffee.cursomc.dto.ProdutoDTO;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +22,8 @@ public class Categoria implements Serializable{
 
     private String nome;
 
-    @JsonManagedReference
+
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categorias", cascade = CascadeType.ALL)
     private List<Produto> produtos = new ArrayList<>();
 
