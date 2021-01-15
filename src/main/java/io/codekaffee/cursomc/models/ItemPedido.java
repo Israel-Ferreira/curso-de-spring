@@ -7,6 +7,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 @Data
@@ -37,6 +39,7 @@ public class ItemPedido {
         this.id = new ItemPedidoPK(produto, pedido);
         this.desconto = desconto;
         this.quantidade = quantidade;
+        this.preco = produto.getPreco();
     }
 
 
@@ -45,9 +48,8 @@ public class ItemPedido {
         return id.getPedido();
     }
 
-    public Double getSubTotal(){
-        Double precoProduto = getProduto().getPreco();
-        return (precoProduto * quantidade) - desconto;
+    public double getSubTotal(){
+        return (preco * quantidade) - desconto;
     }
 
 
@@ -58,7 +60,6 @@ public class ItemPedido {
 
 
     public void setProduto(Produto produto){
-        System.out.println(produto.getNome());
         this.id.setProduto(produto);
     }
 
@@ -66,4 +67,20 @@ public class ItemPedido {
         this.id.setPedido(pedido);
     }
 
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append(this.getProduto().getNome());
+        sb.append(", Qte: ");
+        sb.append(this.getQuantidade());
+        sb.append(", Preço unitário: ");
+        sb.append(nf.format(this.getPreco()));
+        sb.append(", Subtotal: ");
+        sb.append(nf.format(this.getSubTotal()));
+
+        sb.append("\n");
+        return sb.toString();
+    }
 }

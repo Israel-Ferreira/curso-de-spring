@@ -7,8 +7,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @Setter
@@ -37,7 +40,7 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "endereco_id")
     private Endereco enderecoEntrega;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
@@ -51,13 +54,34 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
+
     public Double getValorTotal(){
         return items.stream().map(ItemPedido::getSubTotal)
                 .reduce(0.0,Double::sum);
     }
 
 
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
 
-
+		StringBuilder builder = new StringBuilder();
+		builder.append("Pedido número: ");
+		builder.append(getId());
+		builder.append(", Instante: ");
+		builder.append(this.getInstante().format(df));
+		builder.append(", Cliente: ");
+		builder.append(this.cliente.getNome());
+		builder.append(", Situação do pagamento: ");
+		builder.append(getPagamento().getEstadoPagamento().getDescricao());
+		builder.append("\nDetalhes:\n");
+		for (ItemPedido ip : this.getItems()) {
+			builder.append(ip.toString());
+		}
+		builder.append("Valor total: ");
+		builder.append(nf.format(this.getValorTotal()));
+		return builder.toString();
+    }
 }

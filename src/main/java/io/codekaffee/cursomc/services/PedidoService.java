@@ -2,6 +2,7 @@ package io.codekaffee.cursomc.services;
 
 import io.codekaffee.cursomc.enums.EstadoPagamento;
 import io.codekaffee.cursomc.exceptions.nfex.PedidoNotFoundException;
+import io.codekaffee.cursomc.models.Cliente;
 import io.codekaffee.cursomc.models.ItemPedido;
 import io.codekaffee.cursomc.models.PagamentoBoleto;
 import io.codekaffee.cursomc.models.Pedido;
@@ -20,7 +21,7 @@ public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
 
-
+    private final ClienteService clienteService;
     private final PagamentoRepository pagamentoRepository;
 
     private final BoletoService boletoService;
@@ -29,7 +30,8 @@ public class PedidoService {
 
 
     @Autowired
-    public PedidoService(PedidoRepository pedidoRepository, PagamentoRepository pagamentoRepository, BoletoService boletoService, ProdutoService produtoService, ItemPedidoRepository itemPedidoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, PagamentoRepository pagamentoRepository, BoletoService boletoService, ProdutoService produtoService, ItemPedidoRepository itemPedidoRepository, ClienteService clienteService) {
+        this.clienteService = clienteService;
         this.pedidoRepository = pedidoRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.boletoService = boletoService;
@@ -44,7 +46,9 @@ public class PedidoService {
 
     @Transactional
     public Pedido insert(Pedido pedido){
+        Cliente cliente = this.clienteService.findById(pedido.getCliente().getId());
         pedido.setId(null);
+        pedido.setCliente(cliente);
         pedido.getPagamento().setEstadoPagamento(EstadoPagamento.PENDENTE);
         pedido.getPagamento().setPedido(pedido);
 
@@ -58,6 +62,7 @@ public class PedidoService {
 
         for (ItemPedido item: pedido.getItems()) {
             var produto = produtoService.getProduto(item.getProduto().getId());
+            item.setProduto(produto);
             item.setDesconto(0.0);
             item.setPreco(produto.getPreco());
             item.setPedido(pedido);
