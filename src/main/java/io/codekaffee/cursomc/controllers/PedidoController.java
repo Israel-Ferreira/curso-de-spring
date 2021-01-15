@@ -26,7 +26,6 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<Void> createPedido(@RequestBody Pedido pedido){
         Pedido pedido1 = this.pedidoService.insert(pedido);
-        System.out.println(pedido1.toString());
 
         URI uri = ResourceUtils.resourceURI(pedido1.getId());
         return ResponseEntity.created(uri).build();

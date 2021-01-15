@@ -9,6 +9,7 @@ import io.codekaffee.cursomc.models.Pedido;
 import io.codekaffee.cursomc.repositories.ItemPedidoRepository;
 import io.codekaffee.cursomc.repositories.PagamentoRepository;
 import io.codekaffee.cursomc.repositories.PedidoRepository;
+import io.codekaffee.cursomc.services.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,15 +29,17 @@ public class PedidoService {
     private final ProdutoService produtoService;
     private final ItemPedidoRepository itemPedidoRepository;
 
+    private final EmailService emailService;
 
     @Autowired
-    public PedidoService(PedidoRepository pedidoRepository, PagamentoRepository pagamentoRepository, BoletoService boletoService, ProdutoService produtoService, ItemPedidoRepository itemPedidoRepository, ClienteService clienteService) {
+    public PedidoService(PedidoRepository pedidoRepository, PagamentoRepository pagamentoRepository, BoletoService boletoService, ProdutoService produtoService, ItemPedidoRepository itemPedidoRepository, ClienteService clienteService, EmailService emailService) {
         this.clienteService = clienteService;
         this.pedidoRepository = pedidoRepository;
         this.pagamentoRepository = pagamentoRepository;
         this.boletoService = boletoService;
         this.produtoService = produtoService;
         this.itemPedidoRepository = itemPedidoRepository;
+        this.emailService =  emailService;
     }
 
     public Pedido getById(Long id){
@@ -69,6 +72,8 @@ public class PedidoService {
         }
 
         itemPedidoRepository.saveAll(pedido.getItems());
+
+        this.emailService.sendOrderConfirmationEmail(pedido);
 
         return pedido;
     }
